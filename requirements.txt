@@ -1,0 +1,5 @@
+langextract
+docling
+pydantic>=2
+fastapi
+uvicorn
