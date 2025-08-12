@@ -32,6 +32,9 @@ class Investment(BaseModel):
     investment_date: Optional[str] = None
     investment_cost: Optional[float] = None
     fair_value: Optional[float] = None
+    interest_fee_receivable: Optional[float] = None
+    total: Optional[float] = None
+    currency_exposure: Optional[str] = None
     # Percentage ownership, numeric value only
     ownership: Optional[float] = None
     number_of_shares: Optional[float] = None

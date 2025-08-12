@@ -22,7 +22,10 @@ def _company_investment_id(company_name: str, investment_type: str, prefix: str 
     company_hash = hashlib.md5(company_name.lower().encode()).hexdigest()[:8]
     
     # Add investment type suffix to distinguish different investment types for same company
-    type_suffix = investment_type.lower().replace(" ", "_")[:4]
+    if investment_type:
+        type_suffix = investment_type.lower().replace(" ", "_")[:4]
+    else:
+        type_suffix = "unkn"  # Default suffix for unknown types
     
     return f"{prefix}_{company_hash}_{type_suffix}"
 
@@ -52,6 +55,9 @@ def to_relational_rows(model: FundDocExtraction, fund_id: str) -> Dict[str, List
             "investment_date": investment.investment_date,
             "investment_cost": investment.investment_cost,
             "fair_value": investment.fair_value,
+            "interest_fee_receivable": investment.interest_fee_receivable,
+            "total": investment.total,
+            "currency_exposure": investment.currency_exposure,
             "ownership": investment.ownership,
             "number_of_shares": investment.number_of_shares,
             "moic": investment.moic,

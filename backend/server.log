@@ -1,34 +1,63 @@
-INFO:     Started server process [91469]
+INFO:     Started server process [26451]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     127.0.0.1:62167 - "GET /api/history HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62246 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62246 - "GET /api/result/87d9d9354c3b93ec3e8853cd8033b2b6a6e989405b6e196eeee646ee11a06ae9 HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:62246 - "POST /api/upload HTTP/1.1" 200 OK
+Starting with empty caches - no existing results loaded
+Starting Document Processing API...
+API will be available at: http://localhost:8000
+API documentation at: http://localhost:8000/docs
+INFO:     127.0.0.1:59817 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59896 - "GET /api/history HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60009 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60009 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60009 - "GET /api/result/f85dfb9f8e0edaccaf702ff12e6b5d1eee7c7a985849d0dc51fc56dda425c057 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60009 - "POST /api/upload HTTP/1.1" 200 OK
+Created run directory: /Users/lil/Documents/1 - Projects/P-Vibe coding/12-aug/backend/outputs/run_20250812_232023
+Vision markdown saved successfully to: /Users/lil/Documents/1 - Projects/P-Vibe coding/12-aug/backend/outputs/run_20250812_232023/vision_markdown.md
 Running LangExtract with API key: AIzaSyB-J7...
-[94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m [00:00][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,533[0m chars, processed=[92m0[0m chars:  [00:00][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,533[0m chars, processed=[92m1,533[0m chars:  [00:00][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,533[0m chars, processed=[92m1,533[0m chars:  [00:47][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,533[0m chars, processed=[92m1,533[0m chars:  [00:47]
+[94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m [00:00][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,231[0m chars, processed=[92m0[0m chars:  [00:00][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,231[0m chars, processed=[92m1,231[0m chars:  [00:00][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,231[0m chars, processed=[92m1,231[0m chars:  [00:35][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,231[0m chars, processed=[92m1,231[0m chars:  [00:35]
 [92m✓[0m Extraction processing complete
-[92m✓[0m Extracted [1m90[0m entities ([1m9[0m unique types)
-  [96m•[0m Time: [1m98.86s[0m
-  [96m•[0m Speed: [1m16[0m chars/sec
+[92m✓[0m Extracted [1m41[0m entities ([1m8[0m unique types)
+  [96m•[0m Time: [1m153.75s[0m
+  [96m•[0m Speed: [1m8[0m chars/sec
   [96m•[0m Chunks: [1m2[0m
-[94m[1mLangExtract[0m: Saving to [92mextraction.jsonl[0m: 0 docs [00:00, ? docs/s][94m[1mLangExtract[0m: Saving to [92mextraction.jsonl[0m: 1 docs [00:00, 604.98 docs/s]
+LangExtract completed successfully
+[94m[1mLangExtract[0m: Saving to [92mextraction.jsonl[0m: 0 docs [00:00, ? docs/s][94m[1mLangExtract[0m: Saving to [92mextraction.jsonl[0m: 1 docs [00:00, 1109.60 docs/s]
 [92m✓[0m Saved [1m1[0m documents to [92mextraction.jsonl[0m
-[94m[1mLangExtract[0m: Loading [92mextraction.jsonl[0m:   0%|          | 0.00/21.6k [00:00<?, ?B/s][94m[1mLangExtract[0m: Loading [92mextraction.jsonl[0m: 100%|██████████| 21.6k/21.6k [00:00<00:00, 70.9MB/s]
+[94m[1mLangExtract[0m: Loading [92mextraction.jsonl[0m:   0%|          | 0.00/10.3k [00:00<?, ?B/s][94m[1mLangExtract[0m: Loading [92mextraction.jsonl[0m: 100%|██████████| 10.3k/10.3k [00:00<00:00, 55.3MB/s]
 [92m✓[0m Loaded [1m1[0m documents from [92mextraction.jsonl[0m
-INFO:     127.0.0.1:62314 - "GET /api/status/9e3c7b6a-7695-43a2-8601-c7ece12bacc5 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62314 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62314 - "GET /api/status/9e3c7b6a-7695-43a2-8601-c7ece12bacc5 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:62314 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63524 - "GET /api/status/9e3c7b6a-7695-43a2-8601-c7ece12bacc5 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63526 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63524 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63812 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63814 - "GET /api/status/9e3c7b6a-7695-43a2-8601-c7ece12bacc5 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63812 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63842 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63842 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63856 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63877 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63916 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+Error processing job 24b1ace2-289c-446a-b033-dc10af9344e8: 'NoneType' object has no attribute 'lower'
+Full traceback: Traceback (most recent call last):
+  File "/Users/lil/Documents/1 - Projects/P-Vibe coding/12-aug/backend/server.py", line 263, in process_document_async
+    tables = to_relational_rows(model_data, fund_id=fund_id)
+  File "/Users/lil/Documents/1 - Projects/P-Vibe coding/12-aug/backend/exporter.py", line 45, in to_relational_rows
+    "investment_id": _company_investment_id(investment.investment_name, investment.investment_type),
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lil/Documents/1 - Projects/P-Vibe coding/12-aug/backend/exporter.py", line 25, in _company_investment_id
+    type_suffix = investment_type.lower().replace(" ", "_")[:4]
+                  ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'lower'
+
+INFO:     127.0.0.1:60159 - "GET /api/status/24b1ace2-289c-446a-b033-dc10af9344e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61516 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61516 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61516 - "GET /api/result/f85dfb9f8e0edaccaf702ff12e6b5d1eee7c7a985849d0dc51fc56dda425c057 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61516 - "POST /api/upload HTTP/1.1" 200 OK
+Created run directory: /Users/lil/Documents/1 - Projects/P-Vibe coding/12-aug/backend/outputs/run_20250812_233459
+Vision markdown saved successfully to: /Users/lil/Documents/1 - Projects/P-Vibe coding/12-aug/backend/outputs/run_20250812_233459/vision_markdown.md
+Running LangExtract with API key: AIzaSyB-J7...
+[94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m [00:00][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,121[0m chars, processed=[92m0[0m chars:  [00:00][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,121[0m chars, processed=[92m1,121[0m chars:  [00:00][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,121[0m chars, processed=[92m1,121[0m chars:  [00:41][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,121[0m chars, processed=[92m1,121[0m chars:  [00:41]
+[92m✓[0m Extraction processing complete
+[92m✓[0m Extracted [1m39[0m entities ([1m7[0m unique types)
+  [96m•[0m Time: [1m134.69s[0m
+  [96m•[0m Speed: [1m8[0m chars/sec
+  [96m•[0m Chunks: [1m2[0m
+LangExtract completed successfully
+[94m[1mLangExtract[0m: Saving to [92mextraction.jsonl[0m: 0 docs [00:00, ? docs/s][94m[1mLangExtract[0m: Saving to [92mextraction.jsonl[0m: 1 docs [00:00, 975.87 docs/s]
+[92m✓[0m Saved [1m1[0m documents to [92mextraction.jsonl[0m
+[94m[1mLangExtract[0m: Loading [92mextraction.jsonl[0m:   0%|          | 0.00/9.76k [00:00<?, ?B/s][94m[1mLangExtract[0m: Loading [92mextraction.jsonl[0m: 100%|██████████| 9.76k/9.76k [00:00<00:00, 34.2MB/s]
+[92m✓[0m Loaded [1m1[0m documents from [92mextraction.jsonl[0m
+INFO:     127.0.0.1:61573 - "GET /api/status/f37782bd-d560-4423-999e-f145a20f54e3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61573 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61573 - "GET /api/status/f37782bd-d560-4423-999e-f145a20f54e3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61573 - "GET /api/history?limit=5 HTTP/1.1" 200 OK

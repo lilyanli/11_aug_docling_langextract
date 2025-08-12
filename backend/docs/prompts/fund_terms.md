@@ -22,6 +22,9 @@ Required JSON shape:
       "investment_date" : string|null,
       "investment_cost" : number|null,
       "fair_value" : number|null,
+      "interest_fee_receivable" : number|null,
+      "total" : number|null,
+      "currency_exposure" : string|null,
       "ownership" : number|null, // Percentage ownership, numeric value only, no "%" sign
       "number_of_shares" : number|null, 
       "moic" : number|null // multiple, numeric only
@@ -53,4 +56,4 @@ Rules:
 - If a field is not clearly stated in the text, return null for that field.
 - Pay attention to the hierarchical structure: Investment Type > Country > Industry > Company
 - The same company may appear multiple times with different investment types (e.g., Corporate Debt vs Equities)
-- CRITICAL: Currency and Country are separate fields. Do not assume USD currency means United States country. Extract the actual country/geography separately from the currency.
+- CRITICAL: Currency and Country are separate fields. Do not assume USD currency means United States country. Extract the actual country/geography separately from the currency. If no country is explicitly stated in the table, do not extract a country field.

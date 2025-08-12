@@ -50,6 +50,9 @@ app.add_middleware(
 jobs: Dict[str, Dict[str, Any]] = {}
 results: Dict[str, Dict[str, Any]] = {}
 
+# Force empty caches - no loading of existing results
+print("Starting with empty caches - no existing results loaded")
+
 def load_existing_results():
     """Load existing processed results from output directories"""
     outputs_dir = Path("outputs")
@@ -173,8 +176,15 @@ async def process_document_async(job_id: str, file_path: Path, filename: str, fi
         jobs[job_id]["message"] = "Setting up processing pipeline..."
 
         # Create output directory
-        run_dir = ensure_run_dir()
-        jobs[job_id]["run_dir"] = str(run_dir)
+        try:
+            run_dir = ensure_run_dir()
+            print(f"Created run directory: {run_dir}")
+            jobs[job_id]["run_dir"] = str(run_dir)
+        except Exception as e:
+            print(f"Error creating run directory: {e}")
+            import traceback
+            traceback.print_exc()
+            raise Exception(f"Failed to create run directory: {e}")
         jobs[job_id]["progress"] = 20
         jobs[job_id]["message"] = "Converting PDF pages to markdown..."
 
@@ -188,8 +198,16 @@ async def process_document_async(job_id: str, file_path: Path, filename: str, fi
         
         # Save vision-generated markdown
         vision_markdown_path = run_dir / "vision_markdown.md"
-        async with aiofiles.open(vision_markdown_path, 'w', encoding='utf-8') as f:
-            await f.write(markdown_content)
+        try:
+            async with aiofiles.open(vision_markdown_path, 'w', encoding='utf-8') as f:
+                await f.write(markdown_content)
+            print(f"Vision markdown saved successfully to: {vision_markdown_path}")
+        except Exception as e:
+            print(f"Error saving vision markdown: {e}")
+            # Fallback to synchronous file writing
+            with open(vision_markdown_path, 'w', encoding='utf-8') as f:
+                f.write(markdown_content)
+            print(f"Vision markdown saved using fallback method to: {vision_markdown_path}")
         
         jobs[job_id]["progress"] = 40
         jobs[job_id]["message"] = "Loading extraction prompts and examples..."
@@ -211,7 +229,14 @@ async def process_document_async(job_id: str, file_path: Path, filename: str, fi
             raise Exception("No API key found. Please set LANGEXTRACT_API_KEY or GOOGLE_API_KEY")
         
         print(f"Running LangExtract with API key: {api_key[:10]}...")
-        result = run_langextract(markdown_content, prompt, examples)
+        try:
+            result = run_langextract(markdown_content, prompt, examples)
+            print(f"LangExtract completed successfully")
+        except Exception as e:
+            print(f"LangExtract error: {e}")
+            import traceback
+            traceback.print_exc()
+            raise Exception(f"LangExtract failed: {e}")
         
         if not result:
             raise Exception("LangExtract returned no result")
@@ -247,30 +272,46 @@ async def process_document_async(job_id: str, file_path: Path, filename: str, fi
             "pdf": f"/api/download/{file_hash}/report.pdf",
         }
 
-        # Create preview data
+        # Create preview data - only include fields that have values
         preview = {
             "fund": {
                 "name": model_data.fund.fund_name,
                 "reporting_period": model_data.fund.fund_reporting_period,
             },
-            "soi": [
-                {
-                    "name": inv.investment_name,
-                    "type": inv.investment_type,
-                    "industry": inv.industry,
-                    "country": inv.country,
-                    "cost": inv.investment_cost,
-                    "fair_value": inv.fair_value,
-                    "ownership": inv.ownership,
-                }
-                for inv in model_data.investments
-            ],
-            "summary": {
+            "soi": []
+        }
+        
+        for inv in model_data.investments:
+            investment_data = {
+                "name": inv.investment_name,
+                "type": inv.investment_type,
+            }
+            
+            # Only add fields that have values
+            if inv.industry:
+                investment_data["industry"] = inv.industry
+            if inv.country:
+                investment_data["country"] = inv.country
+            if inv.investment_cost is not None:
+                investment_data["cost"] = inv.investment_cost
+            if inv.fair_value is not None:
+                investment_data["fair_value"] = inv.fair_value
+            if inv.interest_fee_receivable is not None:
+                investment_data["interest_fee_receivable"] = inv.interest_fee_receivable
+            if inv.total is not None:
+                investment_data["total"] = inv.total
+            if inv.currency_exposure:
+                investment_data["currency_exposure"] = inv.currency_exposure
+            if inv.ownership is not None:
+                investment_data["ownership"] = inv.ownership
+                
+            preview["soi"].append(investment_data)
+        
+        preview["summary"] = {
                 "total_investments": len(model_data.investments),
                 "total_cost": sum(inv.investment_cost or 0 for inv in model_data.investments),
                 "total_fair_value": sum(inv.fair_value or 0 for inv in model_data.investments),
             }
-        }
 
         # Update job status to completed
         jobs[job_id]["state"] = "done"
@@ -392,6 +433,13 @@ async def get_result(file_hash: str):
         completedAt=result["completedAt"]
     )
 
+@app.post("/api/clear-cache")
+async def clear_cache():
+    """Clear all cached results"""
+    global results
+    results.clear()
+    return {"message": "Cache cleared successfully"}
+
 @app.get("/api/history")
 async def get_history(limit: int = 5):
     """Get processing history"""
@@ -429,6 +477,14 @@ async def download_file(file_hash: str, filename: str):
 async def root():
     """Health check endpoint"""
     return {"message": "Document Processing API is running", "version": "1.0.0"}
+
+@app.post("/api/clear-cache")
+async def clear_cache():
+    """Clear all cached results and jobs"""
+    global jobs, results
+    jobs.clear()
+    results.clear()
+    return {"message": "Cache cleared successfully"}
 
 @app.post("/api/add-result")
 async def add_manual_result():

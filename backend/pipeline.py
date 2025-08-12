@@ -126,10 +126,10 @@ Requirements:
 11. CRITICAL: Currency and Country are separate fields - do not assume USD means United States
 
 Example format:
-| Investment Name | Investment Type | Industry | Country | Currency | Investment Cost | Fair Value | Ownership % |
-|----------------|----------------|----------|---------|----------|----------------|------------|-------------|
-| Company Name | Equities | Technology | Singapore | USD | $1,000,000 | $1,200,000 | 5.2% |
-| Undisclosed | Equities | Health Care | Vietnam | USD | $2,000,000 | $2,500,000 | 8.1% |
+| Investment Name | Investment Type | Industry | Country | Currency | Investment Cost | Fair Value | Interest/Fee Receivable | Total | Currency Exposure | Ownership % |
+|----------------|----------------|----------|---------|----------|----------------|------------|------------------------|-------|-------------------|-------------|
+| Company Name | Equities | Technology | Singapore | USD | $1,000,000 | $1,200,000 | $50,000 | $1,250,000 | USD | 5.2% |
+| Undisclosed | Equities | Health Care | Vietnam | USD | $2,000,000 | $2,500,000 | $100,000 | $2,600,000 | USD | 8.1% |
 
 Please convert the provided PDF pages to markdown, focusing ONLY on current investments:
 """
@@ -355,6 +355,30 @@ def normalize_to_schema(result, run_dir: Path):
                     investment_groups[unique_key]["fair_value"] = float(re.sub(r"[^0-9.\-]", "", txt))
                 except Exception:
                     investment_groups[unique_key]["fair_value"] = None
+        elif cls == "interest_fee_receivable":
+            if current_investment_name and current_investment_type:
+                unique_key = f"{current_investment_name}_{current_investment_type}"
+                if unique_key not in investment_groups:
+                    investment_groups[unique_key] = {"investment_name": current_investment_name, "investment_type": current_investment_type}
+                try:
+                    investment_groups[unique_key]["interest_fee_receivable"] = float(re.sub(r"[^0-9.\-]", "", txt))
+                except Exception:
+                    investment_groups[unique_key]["interest_fee_receivable"] = None
+        elif cls == "total":
+            if current_investment_name and current_investment_type:
+                unique_key = f"{current_investment_name}_{current_investment_type}"
+                if unique_key not in investment_groups:
+                    investment_groups[unique_key] = {"investment_name": current_investment_name, "investment_type": current_investment_type}
+                try:
+                    investment_groups[unique_key]["total"] = float(re.sub(r"[^0-9.\-]", "", txt))
+                except Exception:
+                    investment_groups[unique_key]["total"] = None
+        elif cls == "currency_exposure":
+            if current_investment_name and current_investment_type:
+                unique_key = f"{current_investment_name}_{current_investment_type}"
+                if unique_key not in investment_groups:
+                    investment_groups[unique_key] = {"investment_name": current_investment_name, "investment_type": current_investment_type}
+                investment_groups[unique_key]["currency_exposure"] = txt
         elif cls == "ownership":
             if current_investment_name and current_investment_type:
                 unique_key = f"{current_investment_name}_{current_investment_type}"
@@ -407,9 +431,8 @@ def normalize_to_schema(result, run_dir: Path):
             # Set currency to USD for all investments (from document header)
             inv["currency"] = "USD"
             
-            # Set country to United States if not specified
-            if not inv.get("country"):
-                inv["country"] = "United States"
+            # Don't set default country - only use what's explicitly stated
+            # USD currency doesn't mean United States
                 
             investments.append(inv)
     

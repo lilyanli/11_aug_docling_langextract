@@ -894,51 +894,6 @@ function FundDataPreview({
 }) {
   const { toast } = useToast()
 
-  const handleDownloadCSV = async () => {
-    if (!preview?.soi || !sessionId) {
-      toast({ variant: "destructive", description: "No data available for download" })
-      return
-    }
-
-    try {
-      // Generate CSV content
-      const soi = preview.soi
-      if (!soi.length) return
-
-      const headers = Object.keys(soi[0])
-      const csvContent = [
-        headers.join(","),
-        ...soi.map((row: Record<string, any>) =>
-          headers
-            .map((header) => {
-              const value = row[header] || ""
-              // Escape commas and quotes in CSV
-              return typeof value === "string" && (value.includes(",") || value.includes('"'))
-                ? `"${value.replace(/"/g, '""')}"`
-                : value
-            })
-            .join(","),
-        ),
-      ].join("\n")
-
-      // Create and download file
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" })
-      const link = document.createElement("a")
-      const url = URL.createObjectURL(blob)
-      link.setAttribute("href", url)
-      link.setAttribute("download", `schedule_of_investments_${sessionId}.csv`)
-      link.style.visibility = "hidden"
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      URL.revokeObjectURL(url)
-
-      toast({ description: "CSV file downloaded successfully" })
-    } catch (error) {
-      toast({ variant: "destructive", description: "Failed to download CSV" })
-    }
-  }
-
   return (
     <div className="space-y-6">
       {/* Fund Information Header */}
@@ -958,20 +913,6 @@ function FundDataPreview({
             </p>
           </div>
         </div>
-
-        {/* CSV Download Button */}
-        {!readOnly && (
-          <Button
-            onClick={handleDownloadCSV}
-            size="sm"
-            variant="outline"
-            className="shadow-sm bg-transparent"
-            disabled={!preview?.soi || !sessionId}
-          >
-            <Download className="mr-2 h-4 w-4" />
-            Download CSV
-          </Button>
-        )}
       </div>
 
       {/* Schedule of Investments Table */}
@@ -1005,11 +946,15 @@ function formatCellValue(value: any, column: string): string {
   
   // Format numbers with commas for thousands
   if (typeof value === 'number') {
+    // Special formatting for ownership percentages
+    if (column.toLowerCase().includes('ownership')) {
+      return `${value.toFixed(2)}%`
+    }
+    
     // Check if it's a currency/numeric column
     if (column.toLowerCase().includes('cost') || 
         column.toLowerCase().includes('value') || 
         column.toLowerCase().includes('fair') ||
-        column.toLowerCase().includes('ownership') ||
         column.toLowerCase().includes('shares') ||
         column.toLowerCase().includes('moic')) {
       return value.toLocaleString('en-US', { 
@@ -1036,7 +981,15 @@ function EditableInvestmentsTable({
   const [editValue, setEditValue] = useState<string>("")
 
   const displayRows = investments.slice(0, 50) // Show up to 50 rows
-  const columns = investments.length > 0 ? Object.keys(investments[0]) : []
+  
+  // Only show columns that have data in at least one row
+  const allColumns = investments.length > 0 ? Object.keys(investments[0]) : []
+  const columns = allColumns.filter(col => {
+    return displayRows.some(row => {
+      const value = row[col]
+      return value !== null && value !== undefined && value !== ""
+    })
+  })
 
   const startEdit = (rowIndex: number, column: string, currentValue: any) => {
     setEditingCell({ row: rowIndex, col: column })
@@ -1085,7 +1038,9 @@ function EditableInvestmentsTable({
               <TableRow className="border-border/50">
                 {columns.map((col) => (
                   <TableHead key={col} className="whitespace-nowrap font-medium text-foreground min-w-[120px]">
-                    {col.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}
+                    {col === "interest_fee_receivable" ? "Interest/Fee Receivable" :
+                     col === "currency_exposure" ? "Currency Exposure" :
+                     col.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}
                   </TableHead>
                 ))}
               </TableRow>
