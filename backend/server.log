@@ -1,0 +1,34 @@
+INFO:     Started server process [91469]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:62167 - "GET /api/history HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62246 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62246 - "GET /api/result/87d9d9354c3b93ec3e8853cd8033b2b6a6e989405b6e196eeee646ee11a06ae9 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62246 - "POST /api/upload HTTP/1.1" 200 OK
+Running LangExtract with API key: AIzaSyB-J7...
+[94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m [00:00][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,533[0m chars, processed=[92m0[0m chars:  [00:00][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,533[0m chars, processed=[92m1,533[0m chars:  [00:00][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,533[0m chars, processed=[92m1,533[0m chars:  [00:47][94m[1mLangExtract[0m: model=[92mgemini-2.5-pro[0m, current=[92m1,533[0m chars, processed=[92m1,533[0m chars:  [00:47]
+[92m✓[0m Extraction processing complete
+[92m✓[0m Extracted [1m90[0m entities ([1m9[0m unique types)
+  [96m•[0m Time: [1m98.86s[0m
+  [96m•[0m Speed: [1m16[0m chars/sec
+  [96m•[0m Chunks: [1m2[0m
+[94m[1mLangExtract[0m: Saving to [92mextraction.jsonl[0m: 0 docs [00:00, ? docs/s][94m[1mLangExtract[0m: Saving to [92mextraction.jsonl[0m: 1 docs [00:00, 604.98 docs/s]
+[92m✓[0m Saved [1m1[0m documents to [92mextraction.jsonl[0m
+[94m[1mLangExtract[0m: Loading [92mextraction.jsonl[0m:   0%|          | 0.00/21.6k [00:00<?, ?B/s][94m[1mLangExtract[0m: Loading [92mextraction.jsonl[0m: 100%|██████████| 21.6k/21.6k [00:00<00:00, 70.9MB/s]
+[92m✓[0m Loaded [1m1[0m documents from [92mextraction.jsonl[0m
+INFO:     127.0.0.1:62314 - "GET /api/status/9e3c7b6a-7695-43a2-8601-c7ece12bacc5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62314 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62314 - "GET /api/status/9e3c7b6a-7695-43a2-8601-c7ece12bacc5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62314 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63524 - "GET /api/status/9e3c7b6a-7695-43a2-8601-c7ece12bacc5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63526 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63524 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63812 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63814 - "GET /api/status/9e3c7b6a-7695-43a2-8601-c7ece12bacc5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63812 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63842 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63842 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63856 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63877 - "GET /api/history?limit=5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63916 - "GET /api/history?limit=5 HTTP/1.1" 200 OK

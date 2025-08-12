@@ -1,0 +1,10 @@
+google-generativeai
+pymupdf
+python-dotenv
+langextract
+pandas
+reportlab
+fastapi
+uvicorn
+python-multipart
+aiofiles

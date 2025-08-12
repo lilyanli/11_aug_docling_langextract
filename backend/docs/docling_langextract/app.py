@@ -11,6 +11,7 @@ from pipeline import (
     save_outputs,
     normalize_to_schema,
 )
+from exporter import to_relational_rows, write_csvs, write_pdf_report
 import os
 from dotenv import load_dotenv
 
@@ -49,6 +50,20 @@ def main():
     print(f"- JSON: {run_dir/'normalized.json'}")
     print(f"- QA HTML: {run_dir/'review.html'}")
     print(f"- Raw extractions: {run_dir/'extraction.jsonl'}")
+
+    # 6) Export to CSV and PDF
+    fund_id = run_dir.name  # simple, unique per run; good as our PK
+
+    # Write CSVs
+    tables = to_relational_rows(model, fund_id=fund_id)
+    csv_dir = run_dir / "csv"
+    write_csvs(tables, csv_dir)
+
+    # PDF report
+    write_pdf_report(model, run_dir / "report.pdf", fund_id=fund_id)
+
+    print(f"- CSV folder: {csv_dir}")
+    print(f"- PDF report: {run_dir/'report.pdf'}")
 
 if __name__ == "__main__":
     main()

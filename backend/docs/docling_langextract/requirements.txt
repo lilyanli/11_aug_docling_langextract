@@ -3,3 +3,5 @@ docling
 pydantic>=2
 fastapi
 uvicorn
+pandas
+reportlab
